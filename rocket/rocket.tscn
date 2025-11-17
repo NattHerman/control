@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://r5u32am37bo1"]
+
+[ext_resource type="PackedScene" uid="uid://bopgjxi5l7t7b" path="res://rocket/thruster.tscn" id="1_fj03e"]
+[ext_resource type="Script" uid="uid://dlp41861we6r6" path="res://rocket/rocket.gd" id="1_vaqdw"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fj03e"]
+size = Vector2(10, 23)
+
+[node name="Rocket" type="RigidBody2D"]
+mass = 8000.0
+script = ExtResource("1_vaqdw")
+Kp = 20.0
+
+[node name="MainThruster" parent="." instance=ExtResource("1_fj03e")]
+position = Vector2(0, -2)
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+position = Vector2(0, -4)
+color = Color(0.37656212, 0.5347212, 0.649979, 1)
+polygon = PackedVector2Array(-5, 0, 5, 0, 5, -23, -5, -23)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -15.5)
+shape = SubResource("RectangleShape2D_fj03e")

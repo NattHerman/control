@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://c2mnkn0utmoir"]
+
+[ext_resource type="PackedScene" uid="uid://dvlu3kjtssoyx" path="res://world.tscn" id="1_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://r5u32am37bo1" path="res://rocket/rocket.tscn" id="2_0xm2m"]
+[ext_resource type="Script" uid="uid://v6k3xlk4uc5p" path="res://camera_controller.gd" id="2_h2yge"]
+[ext_resource type="PackedScene" uid="uid://cs8eylb6ck137" path="res://ui.tscn" id="4_1bvp3"]
+
+[node name="Main" type="Node2D"]
+
+[node name="World" parent="." instance=ExtResource("1_ig7tw")]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(0, -17)
+zoom = Vector2(10, 10)
+process_callback = 0
+position_smoothing_enabled = true
+script = ExtResource("2_h2yge")
+
+[node name="Rocket" parent="." instance=ExtResource("2_0xm2m")]
+position = Vector2(0, -16)
+Kp = 200.0
+Ki = 10.0
+Kd = 100.0
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="UI" parent="CanvasLayer" instance=ExtResource("4_1bvp3")]
