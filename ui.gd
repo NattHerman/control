@@ -3,6 +3,7 @@ extends Control
 @onready var thrust_ratio_bar = %ThrustRatioBar
 @onready var error_label = %ErrorLabel
 @onready var speed_label = %SpeedLabel
+@onready var plot: Plot = %Plot
 
 var start_child_count: int = 0
 
@@ -14,14 +15,5 @@ func _process(_delta: float) -> void:
 	
 	start_child_count = $VBoxContainer.get_child_count()
 
-
-func _on_plot_button_pressed() -> void:
-	var existing_plot: Node = $VBoxContainer.find_child("Plot", false, false)
-	
-	if existing_plot:
-		existing_plot.queue_free()
-		await existing_plot.child_exiting_tree
-	
-	var plot = Plot.create_plot(ui_values.positon_list)
-	plot.name = "Plot"
-	$VBoxContainer.add_child.call_deferred(plot)
+func _ready() -> void:
+	plot.set_data("Height", ui_values.positon_list)

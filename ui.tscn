@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://cs8eylb6ck137"]
+[gd_scene load_steps=3 format=3 uid="uid://cs8eylb6ck137"]
 
 [ext_resource type="Script" uid="uid://chb1o84ma7u4" path="res://ui.gd" id="1_fyqef"]
+[ext_resource type="PackedScene" uid="uid://c4g2aqdb13oc3" path="res://plot/plot.tscn" id="2_m6e0p"]
 
 [node name="UI" type="Control"]
 layout_mode = 3
@@ -37,8 +38,6 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="PlotButton" type="Button" parent="VBoxContainer"]
+[node name="Plot" parent="VBoxContainer" instance=ExtResource("2_m6e0p")]
+unique_name_in_owner = true
 layout_mode = 2
-text = "Update Plot"
-
-[connection signal="pressed" from="VBoxContainer/PlotButton" to="." method="_on_plot_button_pressed"]

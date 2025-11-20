@@ -29,21 +29,29 @@ unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("2_ksohq")
 
-[node name="Center" type="Marker2D" parent="PanelContainer/MarginContainer/Background"]
-unique_name_in_owner = true
-
-[node name="XAxis" type="Line2D" parent="PanelContainer/MarginContainer/Background/Center"]
+[node name="XAxis" type="Line2D" parent="PanelContainer/MarginContainer/Background"]
 unique_name_in_owner = true
 points = PackedVector2Array(0, 0, 0, 0)
 width = 2.0
 default_color = Color(1, 0.2784314, 0.12941177, 1)
 
-[node name="YAxis" type="Line2D" parent="PanelContainer/MarginContainer/Background/Center"]
+[node name="YAxis" type="Line2D" parent="PanelContainer/MarginContainer/Background"]
 unique_name_in_owner = true
 points = PackedVector2Array(0, 0, 0, 0)
 width = 2.0
 default_color = Color(0.3137255, 0.8235294, 0.023529412, 1)
 
-[node name="DataLine" type="Line2D" parent="PanelContainer/MarginContainer/Background/Center"]
+[node name="Center" type="Marker2D" parent="PanelContainer/MarginContainer/Background"]
 unique_name_in_owner = true
+
+[node name="LineContainer" type="Node2D" parent="PanelContainer/MarginContainer/Background/Center"]
+unique_name_in_owner = true
+
+[node name="DataLine" type="Line2D" parent="PanelContainer/MarginContainer/Background/Center/LineContainer"]
 width = 2.0
+
+[node name="PlotUpdateTimer" type="Timer" parent="."]
+wait_time = 0.1
+autostart = true
+
+[connection signal="timeout" from="PlotUpdateTimer" to="." method="_on_plot_update_timer_timeout"]
