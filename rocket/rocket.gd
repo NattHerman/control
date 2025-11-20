@@ -5,9 +5,10 @@ extends RigidBody2D
 @export var Ki: float = 0.0
 @export var Kd: float = 0.0
 
-var pid_controller = PIDController.new()
+var pid_controller := PIDController.new()
+var reference: float = 1280*3
 
-var reference: float = 1000
+var drag_coefficient = 0.5 # going off vibes
 
 @onready var main_thruster = $MainThruster
 
@@ -28,3 +29,12 @@ func _physics_process(delta: float) -> void:
 	var u = pid_controller.control(error, delta)
 	
 	main_thruster.set_thrust(u)
+	
+	var drag = linear_velocity.length_squared() * drag_coefficient
+	apply_force(-linear_velocity.normalized() * drag)
+	
+	ui_values.speed = linear_velocity.length()
+	ui_values.positon_list.append(Vector2(
+		Time.get_ticks_msec() * 0.001 * Engine.time_scale,
+		position.y * 0.01
+	))
