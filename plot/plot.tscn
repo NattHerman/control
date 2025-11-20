@@ -47,9 +47,6 @@ unique_name_in_owner = true
 [node name="LineContainer" type="Node2D" parent="PanelContainer/MarginContainer/Background/Center"]
 unique_name_in_owner = true
 
-[node name="DataLine" type="Line2D" parent="PanelContainer/MarginContainer/Background/Center/LineContainer"]
-width = 2.0
-
 [node name="PlotUpdateTimer" type="Timer" parent="."]
 wait_time = 0.1
 autostart = true
