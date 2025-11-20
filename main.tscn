@@ -1,27 +1,39 @@
-[gd_scene load_steps=5 format=3 uid="uid://c2mnkn0utmoir"]
+[gd_scene load_steps=7 format=3 uid="uid://c2mnkn0utmoir"]
 
 [ext_resource type="PackedScene" uid="uid://dvlu3kjtssoyx" path="res://world.tscn" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://by3j0wa848elw" path="res://main.gd" id="1_lquwl"]
 [ext_resource type="PackedScene" uid="uid://r5u32am37bo1" path="res://rocket/rocket.tscn" id="2_0xm2m"]
 [ext_resource type="Script" uid="uid://v6k3xlk4uc5p" path="res://camera_controller.gd" id="2_h2yge"]
 [ext_resource type="PackedScene" uid="uid://cs8eylb6ck137" path="res://ui.tscn" id="4_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://hsb41au6is5l" path="res://box.tscn" id="6_7mycd"]
 
 [node name="Main" type="Node2D"]
+script = ExtResource("1_lquwl")
 
 [node name="World" parent="." instance=ExtResource("1_ig7tw")]
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(0, -17)
-zoom = Vector2(10, 10)
-process_callback = 0
-position_smoothing_enabled = true
-script = ExtResource("2_h2yge")
-
 [node name="Rocket" parent="." instance=ExtResource("2_0xm2m")]
+unique_name_in_owner = true
 position = Vector2(0, -16)
-Kp = 200.0
-Ki = 10.0
-Kd = 100.0
+mass = 549000.0
+
+[node name="Camera2D" type="Camera2D" parent="Rocket"]
+position = Vector2(0, -17.16)
+zoom = Vector2(2, 2)
+process_callback = 0
+script = ExtResource("2_h2yge")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="UI" parent="CanvasLayer" instance=ExtResource("4_1bvp3")]
+
+[node name="ReferenceMarker" type="Polygon2D" parent="."]
+color = Color(0.8272567, 0.33475384, 0, 1)
+polygon = PackedVector2Array(500, 1, -500, 1, -500, -1, 500, -1)
+
+[node name="Box" parent="." instance=ExtResource("6_7mycd")]
+position = Vector2(29, -42)
+
+[node name="Box2" parent="." instance=ExtResource("6_7mycd")]
+position = Vector2(30, -17)
+mass = 100.0

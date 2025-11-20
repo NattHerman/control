@@ -6,6 +6,7 @@ var pid_controller := PIDController.new()
 var reference: float = 1280*3
 
 var drag_coefficient = 10 # going off vibes
+var gravity = 980
 
 @onready var main_thruster = $MainThruster
 
@@ -27,12 +28,16 @@ var drag_coefficient = 10 # going off vibes
 
 
 func _ready() -> void:
+	var omega0: float = 2*PI * 1
+	Kp = (omega0 ** 2) * mass
+	Kd = 2 * omega0 * mass
+	
 	pid_controller.set_PID(Kp, Ki, Kd)
 	pid_controller.set_back_propogation(false, 0, main_thruster.max_thrust)
 	
 	var thrust_Gs: float = 3
 	
-	main_thruster.max_thrust = mass * 9.8 * thrust_Gs
+	main_thruster.max_thrust = mass * gravity * thrust_Gs
 
 
 func _physics_process(delta: float) -> void:
@@ -42,7 +47,7 @@ func _physics_process(delta: float) -> void:
 		ui_values.error = roundf(error)
 		
 		var u_pid: float = pid_controller.control(error, delta)
-		var u_nom: float = 9.81 * mass
+		var u_nom: float = gravity * mass
 		
 		var u: float = u_pid + u_nom
 		print(round(u_pid), " ", round(u_nom))
