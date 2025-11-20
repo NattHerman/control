@@ -19,6 +19,8 @@ const plot_colors: Array[Color] = [
 var plot_origin: Vector2 = Vector2.ZERO
 var plot_size: Vector2 = Vector2.ZERO
 
+var plot_scale: Vector2 = Vector2.ONE
+
 @export var origin_offset: Vector2 = Vector2(0.05, 0.9)
 
 static var data_series: Dictionary[String, Array]
@@ -43,8 +45,8 @@ func update_data_lines() -> void:
 			line.name = data_name
 			line.width = 2
 			line.default_color = plot_colors.pick_random()
-			line.owner = _line_container
 			_line_container.add_child(line)
+			line.owner = _line_container
 		
 		line.points = PackedVector2Array(data)
 
@@ -61,16 +63,10 @@ func _ready() -> void:
 	_center_marker.global_position = plot_origin
 	
 	# Set axis positions
-	#x_axis.global_position = plot_origin
-	#y_axis.global_position = plot_origin
 	x_axis.points[0] = Vector2(0, origin_offset.y * plot_size.y)
 	x_axis.points[1] = Vector2(plot_size.x, origin_offset.y * plot_size.y)
 	y_axis.points[0] = Vector2(origin_offset.x * plot_size.x, 0)
 	y_axis.points[1] = Vector2(origin_offset.x * plot_size.x, plot_size.y)
-	#x_axis.points[0] = plot_size.x * 0.5 * Vector2(1, 0)
-	#x_axis.points[1] = -plot_size.x * 0.5 * Vector2(1, 0)
-	#y_axis.points[0] = plot_size.y * 0.5 * Vector2(0, 1)
-	#y_axis.points[1] = -plot_size.y * 0.5 * Vector2(0, 1)
 	
 	update_data_lines()
 
