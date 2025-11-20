@@ -19,6 +19,11 @@ config/icon="res://icon.svg"
 
 ui_values="*res://ui_values.gd"
 
+[editor]
+
+version_control/plugin_name="GitPlugin"
+version_control/autoload_on_startup=true
+
 [input]
 
 pan_up={
@@ -60,6 +65,7 @@ pan_speed_increase={
 [physics]
 
 2d/default_gravity=9.8100000000004
+2d/default_linear_damp=0.0
 common/physics_interpolation=true
 
 [rendering]
