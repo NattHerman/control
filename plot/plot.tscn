@@ -1,0 +1,49 @@
+[gd_scene load_steps=3 format=3 uid="uid://c4g2aqdb13oc3"]
+
+[ext_resource type="Script" uid="uid://ckggqfpagsi3k" path="res://plot/plot.gd" id="1_lkeyc"]
+[ext_resource type="Theme" uid="uid://hnbgu7efajy6" path="res://plot/plot.tres" id="2_ksohq"]
+
+[node name="Plot" type="Control"]
+custom_minimum_size = Vector2(400, 300)
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_lkeyc")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Background" type="Panel" parent="PanelContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("2_ksohq")
+
+[node name="Center" type="Marker2D" parent="PanelContainer/MarginContainer/Background"]
+unique_name_in_owner = true
+
+[node name="XAxis" type="Line2D" parent="PanelContainer/MarginContainer/Background/Center"]
+unique_name_in_owner = true
+points = PackedVector2Array(0, 0, 0, 0)
+width = 2.0
+default_color = Color(1, 0.2784314, 0.12941177, 1)
+
+[node name="YAxis" type="Line2D" parent="PanelContainer/MarginContainer/Background/Center"]
+unique_name_in_owner = true
+points = PackedVector2Array(0, 0, 0, 0)
+width = 2.0
+default_color = Color(0.3137255, 0.8235294, 0.023529412, 1)
+
+[node name="DataLine" type="Line2D" parent="PanelContainer/MarginContainer/Background/Center"]
+unique_name_in_owner = true
+width = 2.0
