@@ -15,6 +15,7 @@ var drag_coefficient = 0.5 # going off vibes
 
 func _ready() -> void:
 	pid_controller.set_PID(Kp, Ki, Kd)
+	pid_controller.set_back_propogation(true, 0, main_thruster.max_thrust)
 	
 	var thrust_Gs: float = 3
 	
