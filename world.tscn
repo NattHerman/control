@@ -24,10 +24,10 @@ centered = false
 region_enabled = true
 region_rect = Rect2(0, 0, 2560, 1280)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="GroundCollision" type="CollisionShape2D" parent="."]
 shape = SubResource("WorldBoundaryShape2D_gv5m4")
 
-[node name="Polygon2D" type="Polygon2D" parent="."]
+[node name="GroundPolygon" type="Polygon2D" parent="."]
 texture_filter = 1
 texture_repeat = 2
 color = Color(0.41215244, 0.4121525, 0.41215235, 1)
