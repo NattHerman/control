@@ -13,3 +13,4 @@ func _process(_delta: float) -> void:
 
 func _ready() -> void:
 	plot.set_data("Height", ui_values.positon_list)
+	plot.add_haxis(1280*3, Color("#ffcc6b"))
