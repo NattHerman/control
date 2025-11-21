@@ -50,5 +50,6 @@ unique_name_in_owner = true
 [node name="PlotUpdateTimer" type="Timer" parent="."]
 wait_time = 0.1
 autostart = true
+ignore_time_scale = true
 
 [connection signal="timeout" from="PlotUpdateTimer" to="." method="_on_plot_update_timer_timeout"]
