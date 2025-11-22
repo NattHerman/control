@@ -34,7 +34,8 @@ func control(error: float, dt: float) -> float:
 	_integral_error += ((error + _prev_error)/ 2) * dt
 	
 	# This is not the best numerical derivative, i know.
-	var error_derivative = (error - _prev_error) * dt
+	var error_derivative = (error - _prev_error) / dt
+	print(error_derivative)
 	
 	_prev_error = error
 	
@@ -49,6 +50,5 @@ func control(error: float, dt: float) -> float:
 	if back_propagation:
 		_integral_delta_u += ((_delta_u + _prev_delta_u)/ 2) * dt
 	_prev_delta_u = _delta_u
-	print(_integral_delta_u)
 	
-	return saturated_u
+	return u
