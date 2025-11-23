@@ -11,5 +11,5 @@ size = Vector2(5, 5)
 shape = SubResource("RectangleShape2D_oq5cr")
 
 [node name="Icon" type="Sprite2D" parent="."]
-scale = Vector2(0.05, 0.05)
+scale = Vector2(0.039, 0.039)
 texture = ExtResource("1_g2tbl")
