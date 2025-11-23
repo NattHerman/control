@@ -16,16 +16,19 @@ var back_propagation := false
 var sat_min: float = 0
 var sat_max: float = 1
 
+
 func set_PID(P: float, I: float, D: float, B: float = 1) -> void:
 	Kp = P
 	Ki = I
 	Kd = D
 	Kb = B
 
+
 func set_back_propogation(enabled: bool, _sat_min: float = 0, _sat_max = 1):
 	back_propagation = enabled
 	sat_min = _sat_min
 	sat_max = _sat_max
+
 
 ## This function should run every physics frame, so that
 ## the error integral and derivative stays accurate.
@@ -35,7 +38,6 @@ func control(error: float, dt: float) -> float:
 	
 	# This is not the best numerical derivative, i know.
 	var error_derivative = (error - _prev_error) / dt
-	print(error_derivative)
 	
 	_prev_error = error
 	
