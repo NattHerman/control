@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://c7pr8j404ofg5"]
+
+[ext_resource type="Script" uid="uid://dadru3y53b2u2" path="res://drone/drone.gd" id="1_p11in"]
+[ext_resource type="PackedScene" uid="uid://bmrgl8ap536cd" path="res://drone/propeller.tscn" id="2_p11in"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mwikr"]
+size = Vector2(28, 2)
+
+[node name="Drone" type="RigidBody2D"]
+script = ExtResource("1_p11in")
+
+[node name="MainBody" type="CollisionShape2D" parent="."]
+position = Vector2(0, -1)
+shape = SubResource("RectangleShape2D_mwikr")
+
+[node name="Polygon2D" type="Polygon2D" parent="MainBody"]
+position = Vector2(0, 3)
+color = Color(0.26664594, 0.35647416, 0.3859791, 1)
+polygon = PackedVector2Array(-12, -2, -14, -4, 14, -4, 12, -2)
+
+[node name="LeftPropeller" parent="." instance=ExtResource("2_p11in")]
+unique_name_in_owner = true
+position = Vector2(-14, -2)
+
+[node name="RightPropeller" parent="." instance=ExtResource("2_p11in")]
+unique_name_in_owner = true
+position = Vector2(14, -2)
