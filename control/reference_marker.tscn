@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://bgwgm5v74ijnl"]
+
+[ext_resource type="Script" uid="uid://b5uow3a6ipen" path="res://control/reference_marker.gd" id="1_kx0ym"]
+
+[node name="ReferenceMarker" type="Marker2D"]
+script = ExtResource("1_kx0ym")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+color = Color(0.19707206, 0.41728154, 0.18903616, 1)
+polygon = PackedVector2Array(6, -3, 6, 3, 0, 0, -6, 3, -6, -3, 0, 0)
