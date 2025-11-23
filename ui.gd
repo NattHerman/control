@@ -11,7 +11,13 @@ func _process(_delta: float) -> void:
 	error_label.text = "Error: " + str(round(ui_values.error))
 	speed_label.text = "Speed: " + str(round(ui_values.speed))
 
+
 func _ready() -> void:
 	plot.set_data("Height", ui_values.positon_list)
 	plot.add_haxis(1280*3, Color("#ffcc6b"))
 	plot.add_vaxis(100, Color("#ffcc6b") * 0.5)
+	plot.visible = %TogglePlot.button_pressed
+
+
+func _on_toggle_plot_toggled(toggled_on: bool) -> void:
+	plot.visible = toggled_on

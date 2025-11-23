@@ -36,8 +36,17 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 
+[node name="TogglePlot" type="Button" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+toggle_mode = true
+button_pressed = true
+text = "Enable Plot"
+
 [node name="ThrustRatioBar" type="ProgressBar" parent="MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 max_value = 1.0
+
+[connection signal="toggled" from="MarginContainer/VBoxContainer/TogglePlot" to="." method="_on_toggle_plot_toggled"]
