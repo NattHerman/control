@@ -1,7 +1,7 @@
 extends Control
 class_name Plot
 
-@onready var _background = %Background
+@onready var _background: Panel = %Background
 @onready var _center_marker: Marker2D = %Center
 @onready var _line_container: Node2D = %LineContainer
 
@@ -26,10 +26,11 @@ var plot_scale: Vector2 = Vector2(1, 0.01)
 static var data_series: Dictionary[String, Array]
 
 var is_ready = false
-## Each element should be a list where:
+## Each element in queue should be an array where:
 ##		First element: callable
-##		Second element: list of arguments
+##		Second element: array of arguments
 var _pre_ready_queue: Array = []
+
 
 ## Returns a Plot object.
 static func create_plot(data_name: String, _data: Array[Vector2]):
@@ -60,6 +61,25 @@ func add_haxis(y, color = Color("ffffff")):
 		Vector2(0, plot_origin.y - y * plot_scale.y),
 		Vector2(plot_size.x, plot_origin.y - y * plot_scale.y),
 	]
+
+
+## Add a vertical axis to the canvas.
+func add_vaxis(x, color = Color("ffffff")):
+	if not is_ready:
+		_pre_ready_queue.append([add_vaxis, [x, color]])
+		return
+	
+	var line = Line2D.new()
+	line.width = 2
+	line.default_color = color
+	_background.add_child(line)
+	line.owner = _background
+	
+	line.points = [
+		Vector2(plot_origin.x + x * plot_scale.x, 0),
+		Vector2(plot_origin.x + x * plot_scale.x, plot_size.y),
+	]
+
 
 func update_data_lines() -> void:
 	for data_name in data_series.keys():
