@@ -10,14 +10,17 @@ config_version=5
 
 [application]
 
-config/name="rocket"
+config/name="Control"
 run/main_scene="uid://c2mnkn0utmoir"
 config/features=PackedStringArray("4.5", "GL Compatibility")
+boot_splash/fullsize=false
+boot_splash/image="uid://b2lap04uuilsd"
 config/icon="res://icon.svg"
 
 [autoload]
 
 ui_values="*res://ui_values.gd"
+global_timer="*res://global_timer.gd"
 
 [editor]
 
@@ -64,9 +67,10 @@ pan_speed_increase={
 
 [physics]
 
-2d/default_gravity=490.0
+common/physics_ticks_per_second=240
+common/max_physics_steps_per_frame=100
+2d/default_gravity=981.0
 2d/default_linear_damp=0.0
-common/physics_interpolation=true
 
 [rendering]
 
