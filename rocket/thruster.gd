@@ -20,6 +20,5 @@ func _process(_delta: float) -> void:
 
 
 func _physics_process(_delta: float) -> void:
-	var down = -global_transform.y
-	get_parent().apply_force(down * current_thrust, global_position)
-	#print(round(current_thrust), " ", round(current_thrust / max_thrust))
+	var up = -global_transform.y
+	get_parent().apply_force(up * current_thrust)
