@@ -60,9 +60,3 @@ func _physics_process(delta: float) -> void:
 		
 		var drag = linear_velocity.length_squared() * drag_coefficient
 		apply_force(-linear_velocity.normalized() * drag)
-		
-		ui_values.speed = linear_velocity.length()
-		ui_values.positon_list.append(Vector2(
-			global_timer.time,
-			position.y
-		))
