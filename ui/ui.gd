@@ -13,9 +13,11 @@ func _process(_delta: float) -> void:
 
 
 func _ready() -> void:
-	plot.set_data("Height", ui_values.positon_list)
-	plot.add_haxis(1280*3, Color("#ffcc6b"))
-	plot.add_vaxis(100, Color("#ffcc6b") * 0.5)
+	plot.set_data(ui_values.position_data)
+	plot.set_data(ui_values.angle_ref_data)
+	plot.set_data(ui_values.angle_data)
+	#plot.add_haxis(1280*3, Color("#ffcc6b"))
+	#plot.add_vaxis(100, Color("#ffcc6b") * 0.5)
 	plot.visible = %TogglePlot.button_pressed
 
 

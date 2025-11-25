@@ -1,5 +1,7 @@
 extends Control
 class_name Plot
+## A tool for plotting [code]DataSeries[/code]
+
 
 @onready var _background: Panel = %Background
 @onready var _center_marker: Marker2D = %Center
@@ -19,11 +21,12 @@ const plot_colors: Array[Color] = [
 var plot_origin: Vector2 = Vector2.ZERO
 var plot_size: Vector2 = Vector2.ZERO
 
-var plot_scale: Vector2 = Vector2(1, 0.01)
+var plot_scale: Vector2 = Vector2(50, 100)
+var max_point_count: int = 300
 
 @export var origin_offset: Vector2 = Vector2(0.05, 0.9)
 
-static var data_series: Dictionary[String, Array]
+static var data_series_dict: Dictionary[String, DataSeries]
 
 var is_ready = false
 ## Each element in queue should be an array where:
@@ -33,16 +36,17 @@ var _pre_ready_queue: Array = []
 
 
 ## Returns a Plot object.
-static func create_plot(data_name: String, _data: Array[Vector2]):
-	data_series[data_name] = _data
+static func create_plot(data_series: DataSeries):
+	assert(data_series.name != "", "data_series name cannot be empty.")
+	data_series_dict[data_series.name] = data_series
 	var plot_scene: PackedScene = load("res://plot/plot.tscn")
 	return plot_scene.instantiate()
 
 
-## Update the data values in a series.
-func set_data(data_name: String, _data: Array[Vector2]):
-	data_series[data_name] = _data
-	update_data_lines()
+## Update the data value reference for a series.
+func set_data(data_series: DataSeries):
+	assert(data_series.name != "", "data_series name cannot be empty.")
+	data_series_dict[data_series.name] = data_series
 
 
 ## Add a horizontal axis to the canvas.
@@ -82,30 +86,30 @@ func add_vaxis(x, color = Color("ffffff")):
 
 
 func update_data_lines() -> void:
-	for data_name in data_series.keys():
-		var data: PackedVector2Array = PackedVector2Array(data_series[data_name])
+	for data_name in data_series_dict.keys():
+		var data_series: DataSeries = data_series_dict[data_name]
+		var data: PackedVector2Array = data_series.data
 		var line: Line2D = _line_container.find_child(data_name, false, false)
 		
-		# Dont do anything if there is no data
+		# Skip if there is no data
 		if data.size() == 0:
-			return
+			continue
 		
 		if not line:
 			line = Line2D.new()
 			line.name = data_name
 			line.width = 2
-			line.default_color = plot_colors.pick_random()
+			line.default_color = data_series.color
 			_line_container.add_child(line)
 			line.owner = _line_container
 		
 		# Change scale to fit data on x-axis
-		var max_x = data[-1].x
 		var x_space = plot_size.x * (1 - origin_offset.x)
-		if max_x * plot_scale.x > x_space:
-			plot_scale.x = x_space / max_x
+		if data_series.max_x * plot_scale.x > x_space:
+			plot_scale.x = x_space / data_series.max_x
 		
 		# Scale data
-		var scaled_data: PackedVector2Array = data
+		var scaled_data: PackedVector2Array = data.duplicate()
 		for i in scaled_data.size():
 			scaled_data[i] *= plot_scale
 		
