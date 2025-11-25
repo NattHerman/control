@@ -14,14 +14,13 @@ position = Vector2(0, -1)
 shape = SubResource("RectangleShape2D_mwikr")
 
 [node name="Polygon2D" type="Polygon2D" parent="MainBody"]
-position = Vector2(0, 3)
 color = Color(0.26664594, 0.35647416, 0.3859791, 1)
-polygon = PackedVector2Array(-12, -2, -14, -4, 14, -4, 12, -2)
+polygon = PackedVector2Array(-12, 1, -14, -1, 14, -1, 12, 1)
 
 [node name="LeftPropeller" parent="." instance=ExtResource("2_p11in")]
 unique_name_in_owner = true
-position = Vector2(-14, -2)
+position = Vector2(-14, -1)
 
 [node name="RightPropeller" parent="." instance=ExtResource("2_p11in")]
 unique_name_in_owner = true
-position = Vector2(14, -2)
+position = Vector2(14, -1)
