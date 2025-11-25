@@ -44,7 +44,7 @@ shape = SubResource("RectangleShape2D_hnbbr")
 script = ExtResource("1_hnbbr")
 
 [node name="ExhaustParticles" type="GPUParticles2D" parent="."]
-amount = 40
+amount = 80
 amount_ratio = 0.0
 process_material = SubResource("ParticleProcessMaterial_qec3c")
 

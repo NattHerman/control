@@ -35,7 +35,7 @@ shape = SubResource("RectangleShape2D_hnbbr")
 script = ExtResource("1_k2mio")
 
 [node name="ExhaustParticles" type="GPUParticles2D" parent="."]
-amount = 40
+amount = 80
 process_material = SubResource("ParticleProcessMaterial_dx7bl")
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
