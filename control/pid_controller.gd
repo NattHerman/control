@@ -29,6 +29,13 @@ func set_back_propogation(enabled: bool, _sat_min: float = 0, _sat_max = 1):
 	sat_min = _sat_min
 	sat_max = _sat_max
 
+## Sets Kp and Kd to values that make the system critically dampened. [br][br]
+## [param divisor]: The important bit, the stuff thats not Kp and Kd in the characteristic polynomial.
+## [param omega0]: Values [code]> 2PI[/code] makes the system [i]faster[/i] but causes overshoot, [code]< 2PI[/code] makes the system [i]slower[/i][br]
+func PD_critically_dampened(divisor: float, omega0: float = 2*PI):
+	Kp = (omega0 ** 2) * divisor
+	Kd = 2 * omega0 * divisor
+
 
 ## This function should run every physics frame, so that
 ## the error integral and derivative stays accurate.
