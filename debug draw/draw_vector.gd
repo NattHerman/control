@@ -19,3 +19,6 @@ func _init(_vector: Vector2, pos: Vector2, _lifespan: float = 0.5) -> void:
 func _ready() -> void:
 	var timer: SceneTreeTimer = get_tree().create_timer(lifespan)
 	timer.connect("timeout", queue_free)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	queue_free()
