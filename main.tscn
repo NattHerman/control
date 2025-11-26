@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://r5u32am37bo1" path="res://rocket/rocket.tscn" id="2_0xm2m"]
 [ext_resource type="Script" uid="uid://v6k3xlk4uc5p" path="res://camera_controller.gd" id="2_h2yge"]
 [ext_resource type="PackedScene" uid="uid://c7pr8j404ofg5" path="res://drone/drone.tscn" id="5_7mycd"]
-[ext_resource type="PackedScene" uid="uid://cs8eylb6ck137" path="res://ui.tscn" id="6_272bh"]
+[ext_resource type="PackedScene" uid="uid://cs8eylb6ck137" path="res://ui/ui.tscn" id="6_272bh"]
 [ext_resource type="PackedScene" uid="uid://bgwgm5v74ijnl" path="res://control/reference_marker.tscn" id="7_272bh"]
 
 [node name="Main" type="Node2D"]
@@ -24,9 +24,12 @@ polygon = PackedVector2Array(500, 1, -500, 1, -500, -1, 500, -1)
 
 [node name="Drone" parent="." instance=ExtResource("5_7mycd")]
 position = Vector2(0, -200)
+gravity_scale = 0.0
 
 [node name="Rocket" parent="." instance=ExtResource("2_0xm2m")]
 position = Vector2(-41.84, 0)
+
+[node name="ReferenceMarker" parent="." instance=ExtResource("7_272bh")]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 unique_name_in_owner = true
@@ -34,5 +37,3 @@ position = Vector2(0, -200)
 zoom = Vector2(2, 2)
 process_callback = 0
 script = ExtResource("2_h2yge")
-
-[node name="ReferenceMarker" parent="." instance=ExtResource("7_272bh")]
