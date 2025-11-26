@@ -19,7 +19,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-ui_values="*res://ui_values.gd"
+ui_values="*res://ui/ui_values.gd"
 global_timer="*res://global_timer.gd"
 
 [editor]
@@ -68,7 +68,7 @@ pan_speed_increase={
 [physics]
 
 common/physics_ticks_per_second=240
-common/max_physics_steps_per_frame=100
+common/max_physics_steps_per_frame=32
 2d/default_gravity=981.0
 2d/default_linear_damp=0.0
 
