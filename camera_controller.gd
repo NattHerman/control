@@ -3,6 +3,7 @@ extends Camera2D
 
 var speed: float = 256*2
 var speed_modification: float = 2
+@export var panning_enabled = true
 
 
 func _input(event: InputEvent) -> void:
@@ -16,6 +17,9 @@ func _input(event: InputEvent) -> void:
 
 
 func _process(delta: float) -> void:
+	if not panning_enabled:
+		return
+	
 	var movement_direction = Input.get_vector("pan_left", "pan_right", "pan_up", "pan_down")
 	var velocity = movement_direction * speed / zoom.x
 	
