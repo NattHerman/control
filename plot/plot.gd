@@ -21,10 +21,11 @@ const plot_colors: Array[Color] = [
 var plot_origin: Vector2 = Vector2.ZERO
 var plot_size: Vector2 = Vector2.ZERO
 
-var plot_scale: Vector2 = Vector2(50, 100)
+#var plot_scale: Vector2 = Vector2(50, 100)
+var plot_scale: Vector2 = Vector2(10000, 1)
 var max_point_count: int = 300
 
-@export var origin_offset: Vector2 = Vector2(0.05, 0.9)
+@export var origin_offset: Vector2 = Vector2(0.05, 0.5)
 
 static var data_series_dict: Dictionary[String, DataSeries]
 
@@ -105,15 +106,15 @@ func update_data_lines() -> void:
 		
 		# Change scale to fit data on x-axis
 		var x_space = plot_size.x * (1 - origin_offset.x)
-		if data_series.max_x * plot_scale.x > x_space:
-			plot_scale.x = x_space / data_series.max_x
+		if data_series.max_x * data_series.scale.x > x_space:
+			data_series.scale.x = x_space / abs(data_series.max_x)
 		
-		# Scale data
-		var scaled_data: PackedVector2Array = data.duplicate()
-		for i in scaled_data.size():
-			scaled_data[i] *= plot_scale
+		# Change scale to fit data on y-axis
+		var y_space = plot_size.y * (1 - origin_offset.y)
+		if (data_series.max_y * data_series.scale.y) > y_space or (abs(data_series.min_y) * data_series.scale.y) > y_space:
+			data_series.scale.y = y_space / max(abs(data_series.max_y),abs(data_series.min_y))
 		
-		line.points = scaled_data
+		line.points = data_series.get_scaled()
 
 func _ready() -> void:
 	# Wait untill AFTER the first frame has been drawn
