@@ -7,7 +7,7 @@ var x_controller := PIDController.new()
 var angle_controller := PIDController.new()
 
 var reference_position: Vector2 = Vector2(0, -100)
-var reference_angle: float = PI/2
+var reference_angle: float = 0
 
 var gravity: float = 981
 var world_gravity: float = 981
@@ -36,26 +36,33 @@ func _ready() -> void:
 	r = absf(right_thruster.position.x)
 	
 	y_controller.PD_critically_dampened(mass)
+	x_controller.PD_critically_dampened(mass)
 	angle_controller.PD_critically_dampened(mass*r)
 	angle_controller.Kp *= 6
+	angle_controller.Kd *= 15
 	
 	await get_tree().process_frame
 	gravity = get_gravity().length()
 	
-	var Gs = 2
+	var Gs = 6
 	left_thruster.max_thrust = mass * world_gravity * Gs
 	right_thruster.max_thrust = mass * world_gravity * Gs
 
 
 func _physics_process(delta: float) -> void:
-	var height: float = position.y
-	var yerror: float = reference_position.y - height
-	ui_values.error = roundf(yerror)
+	var yerror: float = reference_position.y - position.y
 	
 	var yu_pid: float = y_controller.control(yerror, delta)
 	var yu_nom: float = -gravity * mass
 	
 	var yu: float = yu_pid + yu_nom
+	
+	var xerror: float = reference_position.x - position.x
+	var xu: float = x_controller.control(xerror, delta)
+	
+	#reference_angle = atan2(xu, -yu)
+	var lean_dir = Input.get_axis("lean_left", "lean_right")
+	reference_angle = lean_dir * PI/6
 	
 	var angle_error: float = reference_angle - global_rotation
 	
@@ -64,35 +71,23 @@ func _physics_process(delta: float) -> void:
 	elif angle_error > PI:
 		angle_error -= 2*PI
 	
-	#var angle_error_other_way: float
-	#if global_rotation < reference_angle:
-		#angle_error_other_way = angle_error - 360
-	#elif global_rotation > reference_angle:
-		#angle_error_other_way = angle_error + 360
-	#
-	#print(abs(angle_error_other_way) < abs(angle_error))
-	#if abs(angle_error_other_way) < abs(angle_error):
-		#angle_error = angle_error_other_way
-	
 	var angle_u_pid = angle_controller.control(angle_error, delta)
 	
-	left_thruster.set_thrust(angle_u_pid / 2)
-	right_thruster.set_thrust(-angle_u_pid / 2)
+	left_thruster.current_thrust = angle_u_pid / 2
+	right_thruster.current_thrust = -angle_u_pid / 2
 	
+	#yu = yu_nom
+	#yu = yu / (cos(global_rotation) * 2)
+	
+	left_thruster.current_thrust = -yu
+	right_thruster.current_thrust = -yu
+	#left_thruster.current_thrust += -u / 2
+	#right_thruster.current_thrust += -u / 2
 	#left_thruster.set_thrust(-yu/2)
 	#right_thruster.set_thrust(-yu/2)
 	
 	ui_values.speed = linear_velocity.length()
 	if Time.get_ticks_msec() % 10 == 0:
-		ui_values.angle_data.append(Vector2(
-			global_timer.time,
-			rotation
-		))
-		ui_values.angle_ref_data.append(Vector2(
-			global_timer.time,
-			reference_angle
-		))
-		ui_values.position_data.append(Vector2(
-			global_timer.time,
-			position.y
-		))
+		ui_values.angle_data.append_with_time(rotation)
+		ui_values.angle_ref_data.append_with_time(reference_angle)
+		ui_values.position_data.append_with_time(global_position.y)

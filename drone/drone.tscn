@@ -10,7 +10,6 @@ size = Vector2(28, 2)
 script = ExtResource("1_p11in")
 
 [node name="MainBody" type="CollisionShape2D" parent="."]
-position = Vector2(0, -1)
 shape = SubResource("RectangleShape2D_mwikr")
 
 [node name="Polygon2D" type="Polygon2D" parent="MainBody"]
@@ -19,8 +18,8 @@ polygon = PackedVector2Array(-12, 1, -14, -1, 14, -1, 12, 1)
 
 [node name="LeftPropeller" parent="." instance=ExtResource("2_p11in")]
 unique_name_in_owner = true
-position = Vector2(-14, -1)
+position = Vector2(-14, 0)
 
 [node name="RightPropeller" parent="." instance=ExtResource("2_p11in")]
 unique_name_in_owner = true
-position = Vector2(14, -1)
+position = Vector2(14, 0)

@@ -37,6 +37,7 @@ func _to_string() -> String:
 func append_with_time(value: float):
 	append(Vector2(global_timer.time, value))
 
+
 func append(point: Vector2):
 	data.append(point)
 	

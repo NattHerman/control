@@ -24,16 +24,17 @@ polygon = PackedVector2Array(500, 1, -500, 1, -500, -1, 500, -1)
 
 [node name="Drone" parent="." instance=ExtResource("5_7mycd")]
 position = Vector2(0, -200)
-gravity_scale = 0.0
+rotation = 0.017453292
+
+[node name="Camera2D" type="Camera2D" parent="Drone"]
+unique_name_in_owner = true
+rotation = -0.01745329
+zoom = Vector2(2, 2)
+process_callback = 0
+script = ExtResource("2_h2yge")
+panning_enabled = false
 
 [node name="Rocket" parent="." instance=ExtResource("2_0xm2m")]
 position = Vector2(-41.84, 0)
 
 [node name="ReferenceMarker" parent="." instance=ExtResource("7_272bh")]
-
-[node name="Camera2D" type="Camera2D" parent="."]
-unique_name_in_owner = true
-position = Vector2(0, -200)
-zoom = Vector2(2, 2)
-process_callback = 0
-script = ExtResource("2_h2yge")
