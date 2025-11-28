@@ -27,10 +27,8 @@ region_rect = Rect2(0, 0, 2560, 1280)
 
 [node name="GroundCollision" type="CollisionShape2D" parent="."]
 shape = SubResource("WorldBoundaryShape2D_gv5m4")
-disabled = true
 
 [node name="GroundPolygon" type="Polygon2D" parent="."]
-visible = false
 z_index = 1
 texture_filter = 1
 texture_repeat = 2

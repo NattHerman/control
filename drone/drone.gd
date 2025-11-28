@@ -11,7 +11,17 @@ var reference_angle: float = 0
 
 var gravity: float = 981
 var world_gravity: float = 981
+var max_thrust: float
 var r: float = 1.0
+@export var lean_angle: float = PI / 3
+
+var manual_mode: bool = true:
+	get:
+		return ui_values.manual_mode
+
+var drag_coefficient: float = 0.3
+var crossectional_area: float =  2.0
+var air_density: float = 1.293 * 0.001
 
 @onready var left_thruster = %LeftPropeller
 @onready var right_thruster = %RightPropeller
@@ -32,37 +42,47 @@ var r: float = 1.0
 	get:
 		return Vector3(x_controller.Kp, x_controller.Ki, x_controller.Kd)
 
+
 func _ready() -> void:
 	r = absf(right_thruster.position.x)
 	inertia = mass * r**2
 	
+	# Update PD values for PID controllers
 	y_controller.PD_critically_dampened(mass)
 	x_controller.PD_critically_dampened(mass)
 	angle_controller.PD_critically_dampened(mass*r)
 	angle_controller.Kp *= 6
 	
+	# Wail untill after phyisics process frame to get gravity
 	await get_tree().process_frame
 	gravity = get_gravity().length()
 	
 	var Gs = 6
-	left_thruster.max_thrust = mass * world_gravity * Gs
-	right_thruster.max_thrust = mass * world_gravity * Gs
+	max_thrust = mass * world_gravity * Gs
+	left_thruster.max_thrust = max_thrust
+	right_thruster.max_thrust = max_thrust
 
 
 func _physics_process(delta: float) -> void:
 	var yerror: float = reference_position.y - position.y
 	
 	var yu_pid: float = y_controller.control(yerror, delta)
-	var yu_nom: float = -gravity * mass
+	var yu_nom: float = -gravity * mass / abs(cos(rotation))
 	
-	var yu: float = yu_pid + yu_nom
+	var throttle: float = Input.get_axis("decrease_propulsion", "increase_propulsion")
+	var nominal_thrust_factor: float = (1 + throttle * 5)
+	var yu: float
+	if manual_mode:
+		yu = yu_nom * nominal_thrust_factor
+	else:
+		yu = yu_pid + yu_nom
 	
 	var xerror: float = reference_position.x - position.x
 	var xu: float = x_controller.control(xerror, delta)
 	
 	#reference_angle = atan2(xu, -yu)
 	var lean_dir = Input.get_axis("lean_left", "lean_right")
-	reference_angle = lean_dir * PI/6
+	reference_angle = lean_dir * lean_angle
 	
 	var angle_error: float = reference_angle - global_rotation
 	
@@ -72,11 +92,15 @@ func _physics_process(delta: float) -> void:
 		angle_error -= 2*PI
 	
 	var angle_u_pid = angle_controller.control(angle_error, delta)
-	
 	apply_torque(angle_u_pid * r)
 	
-	left_thruster.current_thrust = -yu
-	right_thruster.current_thrust = -yu
+	left_thruster.current_thrust = -yu * 0.5
+	right_thruster.current_thrust = -yu * 0.5
+	
+	# Apply air resistance
+	var v2: float = linear_velocity.length_squared()
+	var drag: float =  0.5 * v2 * air_density * crossectional_area
+	apply_force(-linear_velocity.normalized() * drag)
 	
 	ui_values.speed = linear_velocity.length()
 	if Time.get_ticks_msec() % 10 == 0:

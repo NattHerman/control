@@ -23,3 +23,7 @@ func _ready() -> void:
 
 func _on_toggle_plot_toggled(toggled_on: bool) -> void:
 	plot.visible = toggled_on
+
+
+func _on_manual_mode_toggle_toggled(toggled_on: bool) -> void:
+	ui_values.manual_mode = toggled_on
