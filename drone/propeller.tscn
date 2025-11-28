@@ -20,7 +20,6 @@ emission_ring_height = 1.0
 emission_ring_radius = 7.0
 emission_ring_inner_radius = 3.0
 emission_ring_cone_angle = 90.0
-inherit_velocity_ratio = 0.897
 direction = Vector3(0, 1, 0)
 spread = 10.862
 initial_velocity_min = 120.0
