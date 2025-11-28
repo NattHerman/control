@@ -34,12 +34,12 @@ var r: float = 1.0
 
 func _ready() -> void:
 	r = absf(right_thruster.position.x)
+	inertia = mass * r**2
 	
 	y_controller.PD_critically_dampened(mass)
 	x_controller.PD_critically_dampened(mass)
 	angle_controller.PD_critically_dampened(mass*r)
 	angle_controller.Kp *= 6
-	angle_controller.Kd *= 15
 	
 	await get_tree().process_frame
 	gravity = get_gravity().length()
@@ -73,18 +73,10 @@ func _physics_process(delta: float) -> void:
 	
 	var angle_u_pid = angle_controller.control(angle_error, delta)
 	
-	left_thruster.current_thrust = angle_u_pid / 2
-	right_thruster.current_thrust = -angle_u_pid / 2
-	
-	#yu = yu_nom
-	#yu = yu / (cos(global_rotation) * 2)
+	apply_torque(angle_u_pid * r)
 	
 	left_thruster.current_thrust = -yu
 	right_thruster.current_thrust = -yu
-	#left_thruster.current_thrust += -u / 2
-	#right_thruster.current_thrust += -u / 2
-	#left_thruster.set_thrust(-yu/2)
-	#right_thruster.set_thrust(-yu/2)
 	
 	ui_values.speed = linear_velocity.length()
 	if Time.get_ticks_msec() % 10 == 0:

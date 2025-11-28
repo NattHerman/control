@@ -21,5 +21,5 @@ func _process(_delta: float) -> void:
 
 func _physics_process(_delta: float) -> void:
 	var up = -global_transform.y
-	get_parent().apply_force(up * current_thrust, global_position)
-	DrawVector.new(up * current_thrust * 0.01, global_position, 0.01)
+	get_parent().apply_force(up * current_thrust)
+	DrawVector.new(up * current_thrust * 0.01, get_parent().global_position, 0.01)
