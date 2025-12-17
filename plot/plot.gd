@@ -86,6 +86,32 @@ func add_vaxis(x, color = Color("ffffff")):
 	]
 
 
+## Scale data using the DataSeries [code]scale[/code] property
+func scale_data(data_series: DataSeries):
+	# Change scale to fit data on x-axis
+	var x_space = plot_size.x * (1 - origin_offset.x)
+	if data_series.max_x * data_series.scale.x > x_space:
+		data_series.scale.x = x_space / abs(data_series.max_x)
+	
+	# Change scale to fit data on y-axis
+	var y_space = plot_size.y * (1 - origin_offset.y)
+	if (data_series.max_y * data_series.scale.y) > y_space or (abs(data_series.min_y) * data_series.scale.y) > y_space:
+		data_series.scale.y = y_space / max(abs(data_series.max_y),abs(data_series.min_y))
+
+
+## Scale data using the plot_scale property in this scope
+func scale_data_external(data_series: DataSeries):
+	# Change scale to fit data on x-axis
+	var x_space = plot_size.x * (1 - origin_offset.x)
+	if data_series.max_x * plot_scale.x > x_space:
+		plot_scale.x = x_space / abs(data_series.max_x)
+	
+	# Change scale to fit data on y-axis
+	var y_space = plot_size.y * (1 - origin_offset.y)
+	if (data_series.max_y * plot_scale.y) > y_space or (abs(data_series.min_y) * plot_scale.y) > y_space:
+		plot_scale.y = y_space / max(abs(data_series.max_y),abs(data_series.min_y))
+
+
 func update_data_lines() -> void:
 	for data_name in data_series_dict.keys():
 		var data_series: DataSeries = data_series_dict[data_name]
@@ -104,20 +130,31 @@ func update_data_lines() -> void:
 			_line_container.add_child(line)
 			line.owner = _line_container
 		
-		# Change scale to fit data on x-axis
-		var x_space = plot_size.x * (1 - origin_offset.x)
-		if data_series.max_x * data_series.scale.x > x_space:
-			data_series.scale.x = x_space / abs(data_series.max_x)
+		## Change scale to fit data on x-axis
+		#var x_space = plot_size.x * (1 - origin_offset.x)
+		#if data_series.use_external_scale and false:
+			#if data_series.max_x * plot_scale.x > x_space:
+				#plot_scale.x = x_space / abs(data_series.max_x)
+		#else:
+			#if data_series.max_x * data_series.scale.x > x_space:
+				#data_series.scale.x = x_space / abs(data_series.max_x)
+		#
+		## Change scale to fit data on y-axis
+		#var y_space = plot_size.y * (1 - origin_offset.y)
+		#if (data_series.max_y * data_series.scale.y) > y_space or (abs(data_series.min_y) * data_series.scale.y) > y_space:
+			#data_series.scale.y = y_space / max(abs(data_series.max_y),abs(data_series.min_y))
 		
-		# Change scale to fit data on y-axis
-		var y_space = plot_size.y * (1 - origin_offset.y)
-		if (data_series.max_y * data_series.scale.y) > y_space or (abs(data_series.min_y) * data_series.scale.y) > y_space:
-			data_series.scale.y = y_space / max(abs(data_series.max_y),abs(data_series.min_y))
-		
-		line.points = data_series.get_scaled()
+		if data_series.use_external_scale:
+			scale_data_external(data_series)
+			line.points = data_series.get_scaled(plot_scale)
+		else:
+			scale_data(data_series)
+			line.points = data_series.get_scaled()
+
 
 func _ready() -> void:
 	# Wait untill AFTER the first frame has been drawn
+	# So that get_rect() doesnt return 0.
 	await get_tree().process_frame
 	await get_tree().process_frame
 	

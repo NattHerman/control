@@ -16,18 +16,20 @@ var max_x: float = 0
 var min_x: float = 0
 
 var scale: Vector2 = Vector2(10000, 10000)
-
+var use_external_scale: bool = false
 
 func _init(
 		_name: StringName,
 		_data: PackedVector2Array,
 		_color: Color = Color(0.681, 0.668, 0.944, 1.0),
 		_scale: Vector2 = Vector2(10000, 10000),
+		_use_external_scale: bool = false
 	) -> void:
 	name = _name
 	data = _data
 	color = _color
 	scale = _scale
+	use_external_scale = _use_external_scale
 
 
 func _to_string() -> String:
@@ -65,10 +67,10 @@ func append_array(data_points: PackedVector2Array):
 			min_y = point.y
 
 
-func get_scaled():
+func get_scaled(_scale: Vector2 = scale):
 	var scaled_data: PackedVector2Array = data.duplicate()
 	
 	for i in scaled_data.size():
-		scaled_data[i] *= scale
+		scaled_data[i] *= _scale
 	
 	return scaled_data

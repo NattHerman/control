@@ -13,12 +13,17 @@ func _process(_delta: float) -> void:
 
 
 func _ready() -> void:
-	plot.set_data(ui_values.position_data)
-	plot.set_data(ui_values.angle_ref_data)
-	plot.set_data(ui_values.angle_data)
+	plot.set_data(ui_values.x_position_data)
+	plot.set_data(ui_values.x_reference_data)
+	plot.set_data(ui_values.y_position_data)
+	plot.set_data(ui_values.y_reference_data)
+	
+	#plot.set_data(ui_values.angle_ref_data)
+	#plot.set_data(ui_values.angle_data)
 	#plot.add_haxis(1280*3, Color("#ffcc6b"))
 	#plot.add_vaxis(100, Color("#ffcc6b") * 0.5)
 	plot.visible = %TogglePlot.button_pressed
+	%ManualModeToggle.button_pressed = ui_values.manual_mode
 
 
 func _on_toggle_plot_toggled(toggled_on: bool) -> void:
