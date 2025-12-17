@@ -33,9 +33,6 @@ func _ready() -> void:
 		var omega0: float = 2*PI * 0.01
 		Kp = (omega0 ** 2) * mass
 		Kd = 2 * omega0 * mass
-		print("Omega0: ", omega0)
-		print("Kp: ", Kp)
-		print("Kd: ", Kd)
 		
 		pid_controller.set_PID(Kp, Ki, Kd)
 		pid_controller.set_back_propogation(false, 0, main_thruster.max_thrust)
