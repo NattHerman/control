@@ -23,3 +23,9 @@ position = Vector2(-14, 0)
 [node name="RightPropeller" parent="." instance=ExtResource("2_p11in")]
 unique_name_in_owner = true
 position = Vector2(14, 0)
+
+[node name="LoggingClock" type="Timer" parent="."]
+wait_time = 0.1
+autostart = true
+
+[connection signal="timeout" from="LoggingClock" to="." method="_on_logging_clock_timeout"]

@@ -26,4 +26,4 @@ func _process(delta: float) -> void:
 	if (Input.is_action_pressed("pan_speed_increase")):
 		velocity *= speed_modification
 	
-	position += velocity * delta
+	position += velocity * delta / Engine.time_scale

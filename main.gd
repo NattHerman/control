@@ -15,7 +15,7 @@ var ref_angle:
 
 @onready var target = $Drone
 
-@export_range(0, 20, 0.01)
+@export_range(0.01, 20, 0.01)
 var time_scale: float = 1:
 	set(value):
 		time_scale = value
@@ -47,4 +47,4 @@ func _process(_delta: float) -> void:
 		$ReferenceMarker.reference = reference_pos
 		$ReferenceLine.position.y = reference_pos.y
 		var target_to_mouse = global_mouse_pos - target.position
-		ref_angle = atan2(target_to_mouse.x, -target_to_mouse.y)
+		#ref_angle = atan2(target_to_mouse.x, -target_to_mouse.y)

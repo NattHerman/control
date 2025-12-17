@@ -21,4 +21,5 @@ func _ready() -> void:
 	timer.connect("timeout", queue_free)
 	await get_tree().process_frame
 	await get_tree().process_frame
+	await get_tree().process_frame
 	queue_free()
